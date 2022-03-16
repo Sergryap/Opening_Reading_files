@@ -18,24 +18,10 @@ def gen_sorted_file(files: list, new_file: str):
     """Функция генерации файла с отсортированными файлами"""
     for file in files:
         file_path_num = os.path.join(file_path, file)
-        with open(new_file, 'a', encoding="utf-8") as f:
-            f.write(f'{file}\n{count_lines(file)}\n')
-        with open(file_path_num, encoding="utf-8") as f:
+        with open(file_path_num, encoding="utf-8") as f, open(new_file, 'a', encoding="utf-8") as fn:
+            fn.write(f'{file}\n{count_lines(file)}\n')
             t = f.read()
-        with open(new_file, 'a', encoding="utf-8") as f:
-            f.write(f'{t}\n')
-        # построчная запись при больших файлах:
-        # start = 0
-        # for i in range(count_lines(file)):
-        #     with open(file_path_num, encoding="utf-8") as f:
-        #         f.seek(start)
-        #         t = f.readline()
-        #         start = f.tell()
-        #     with open(new_file, 'a', encoding="utf-8") as f:
-        #         if i == count_lines(file) - 1:
-        #             f.write(f'{t}\n')
-        #         else:
-        #             f.write(f'{t}')
+            fn.write(f'{t}\n')
 
 
 BASE_PATH = os.getcwd()
