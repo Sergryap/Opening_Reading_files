@@ -42,8 +42,11 @@ def gen_sorted_file(data_sort, new_file):
 
 
 BASE_PATH = os.getcwd()
-FILE_DIR = 'task_3'
+FILE_DIR = 'filestxt'
+RESULT_DIR = 'result'
+RESULT_FILE = 'sorted.txt'
 file_path = os.path.join(BASE_PATH, FILE_DIR)
+result_path = os.path.join(BASE_PATH, RESULT_DIR, RESULT_FILE)
 
 sort_f = get_sort_data(file_path, count_lines)
-gen_sorted_file(sort_f, 'sorted.txt')
+gen_sorted_file(sort_f, result_path)
