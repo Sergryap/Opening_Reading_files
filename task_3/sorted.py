@@ -33,10 +33,11 @@ def gen_sorted_file(data_sort, new_file):
     """
     with fileinput.FileInput(files=data_sort[0], encoding="utf-8") as fr, open(new_file, 'w', encoding='utf-8') as fw:
         i = 0
+        n = '\n'
         for line in fr:
             if fr.isfirstline():
                 discription = f'{data_sort[1][i]}\n{data_sort[2][i]}'
-                fw.write(f'\n{discription}\n')
+                fw.write(f'{n*bool(i)}{discription}\n')
                 i += 1
             fw.write(line)
 
