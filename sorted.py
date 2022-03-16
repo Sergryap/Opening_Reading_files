@@ -1,4 +1,4 @@
-import os
+import fileinput, os
 
 
 def count_lines(file):
@@ -8,39 +8,41 @@ def count_lines(file):
         return sum(1 for _ in f)
 
 
-def sort_files(file_dir, func):
-    """Создание сортированного списка файлов по ключу"""
+def get_sort_data(file_dir, func):
+    """
+    Создание сортированных:
+    - списка названий файлов,
+    - генератора путей файлов,
+    - списка количества строк в файлах
+    """
     file_list = os.listdir(file_dir)
-    return sorted(file_list, key=func)
+    sort_file_list = sorted(file_list, key=func)
+    gen_sort_file_path = (os.path.join(file_dir, i) for i in sort_file_list)
+    count_line = sorted([count_lines(f) for f in file_list])
+    return gen_sort_file_path, sort_file_list, count_line
 
 
-def gen_sorted_file(files: list, new_file: str):
-    """Функция генерации файла с отсортированными файлами"""
-    for file in files:
-        file_path_num = os.path.join(file_path, file)
-        with open(new_file, 'a', encoding="utf-8") as f:
-            f.write(f'{file}\n{count_lines(file)}\n')
-        with open(file_path_num, encoding="utf-8") as f:
-            t = f.read()
-        with open(new_file, 'a', encoding="utf-8") as f:
-            f.write(f'{t}\n')
-        # построчная запись при больших файлах:
-        # start = 0
-        # for i in range(count_lines(file)):
-        #     with open(file_path_num, encoding="utf-8") as f:
-        #         f.seek(start)
-        #         t = f.readline()
-        #         start = f.tell()
-        #     with open(new_file, 'a', encoding="utf-8") as f:
-        #         if i == count_lines(file) - 1:
-        #             f.write(f'{t}\n')
-        #         else:
-        #             f.write(f'{t}')
+def gen_sorted_file(data_sort, new_file):
+    """
+    Функция генерации файла с отсортированными файлами
+    data_sort - кортеж содержащий три параметра:
+    0 - генератор путей файлов
+    1 - список названий файлов
+    2 - список количества строк в файлах
+    """
+    with fileinput.FileInput(files=data_sort[0], encoding="utf-8") as fr, open(new_file, 'w', encoding='utf-8') as fw:
+        i = 0
+        for line in fr:
+            if fr.isfirstline():
+                discription = f'{data_sort[1][i]}\n{data_sort[2][i]}'
+                fw.write(f'\n{discription}\n')
+                i += 1
+            fw.write(line)
 
 
 BASE_PATH = os.getcwd()
 FILE_DIR = 'task_3'
 file_path = os.path.join(BASE_PATH, FILE_DIR)
 
-sort_f = sort_files(file_path, count_lines)
+sort_f = get_sort_data(file_path, count_lines)
 gen_sorted_file(sort_f, 'sorted.txt')
