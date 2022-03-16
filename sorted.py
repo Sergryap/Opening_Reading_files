@@ -24,6 +24,7 @@ def gen_sorted_file(files: list, new_file: str):
             fn.write(f'{t}\n')
 
 
+
 BASE_PATH = os.getcwd()
 FILE_DIR = 'task_3'
 file_path = os.path.join(BASE_PATH, FILE_DIR)
