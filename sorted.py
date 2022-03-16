@@ -1,4 +1,5 @@
-import fileinput, os
+import fileinput
+import os
 
 
 def count_lines(file):
