@@ -1,4 +1,5 @@
 import os
+from pprint import pprint
 
 
 def gen_cook_book(f):
@@ -38,11 +39,13 @@ def get_shop_list_by_dishes(dishes, person_count):
     return for_dishes
 
 
-FILE_NAME = 'recipes.txt'
-BASE_PATH = os.getcwd()
-file_path = os.path.join(BASE_PATH, FILE_NAME)
+if __name__ == '__main__':
 
-cook_book = init_cook_book(file_path)
+    FILE_NAME = 'recipes.txt'
+    BASE_PATH = os.getcwd()
+    file_path = os.path.join(BASE_PATH, FILE_NAME)
+    cook_book = init_cook_book(file_path)
+    list_by_dishes = get_shop_list_by_dishes(['Фахитос', 'Омлет', 'Омлет'], 2)
 
-list_by_dishes = get_shop_list_by_dishes(['Омлет', 'Фахитос'], 4)
-print(list_by_dishes)
+    pprint(cook_book, width=150)
+    pprint(list_by_dishes, width=150)
